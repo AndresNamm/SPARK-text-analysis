@@ -1,0 +1,11 @@
+
+
+rm -rRf /var/hadoop/hadoop-hduser/dfs/*
+ssh hduser@student13-x2 "rm -rRf /var/hadoop/hadoop-hduser/dfs/*"
+ssh hduser@student14-x2 "rm -rRf /var/hadoop/hadoop-hduser/dfs/*"
+ssh hduser@student14-x1 "rm -rRf /var/hadoop/hadoop-hduser/dfs/*"
+ssh hduser@student1-x2 "rm -rRf /var/hadoop/hadoop-hduser/dfs/*"
+ssh hduser@student1-x1 "rm -rRf /var/hadoop/hadoop-hduser/dfs/*"
+ssh hduser@student85-x2 "rm -rRf /var/hadoop/hadoop-hduser/dfs/*"
+ssh hduser@student85-x1 "rm -rRf /var/hadoop/hadoop-hduser/dfs/*"
+

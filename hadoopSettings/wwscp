@@ -1,0 +1,8 @@
+scp /opt/hadoop-2.6.0/etc/hadoop/* student13-x2:/opt/hadoop-2.6.0/etc/hadoop/
+scp /opt/hadoop-2.6.0/etc/hadoop/* student14-x2:/opt/hadoop-2.6.0/etc/hadoop/
+scp /opt/hadoop-2.6.0/etc/hadoop/* student14-x1:/opt/hadoop-2.6.0/etc/hadoop/
+scp /opt/hadoop-2.6.0/etc/hadoop/* student1-x2:/opt/hadoop-2.6.0/etc/hadoop/
+scp /opt/hadoop-2.6.0/etc/hadoop/* student1-x1:/opt/hadoop-2.6.0/etc/hadoop/
+scp /opt/hadoop-2.6.0/etc/hadoop/* student85-x2:/opt/hadoop-2.6.0/etc/hadoop/
+scp /opt/hadoop-2.6.0/etc/hadoop/* student85-x1:/opt/hadoop-2.6.0/etc/hadoop/
+

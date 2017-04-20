@@ -1,0 +1,16 @@
+echo 'student13-x1'
+jps
+echo 'student13-x2'
+ssh hduser@student13-x2 "jps"
+echo 'student14-x2'
+ssh hduser@student14-x2 "jps"
+echo 'student14-x1'
+ssh hduser@student14-x1 "jps"
+echo 'student1-x2'
+ssh hduser@student1-x2 "jps"
+echo 'student1-x1'
+ssh hduser@student1-x1 "jps"
+echo 'student85-x2'
+ssh hduser@student85-x2 "jps"
+echo 'student85-x1'
+ssh hduser@student85-x1 "jps"
