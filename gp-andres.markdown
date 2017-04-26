@@ -4,6 +4,21 @@ title: "GP_Andres"
 date: "2017-04-19 12:59"
 ---
 
+**Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
+
+- [Progress of Text Analysis Project](#)
+	- [Description of conspect](#)
+	- [Setting up Spark in Yarn](#)
+		- [Settings](#)
+			- [Distributed or Local ?](#)
+		- [PROBLEMS](#)
+		- [Logging](#)
+	- [Ipython Notebook](#)
+		- [Installation](#)
+		- [Starting Pyspark](#)
+	- [FOLDERS of THE LOADED DATA in hdfs](#)
+	- [Spark Tutorials Python](#)
+
 # Progress of Text Analysis Project
 
 ##  Description of conspect
@@ -18,6 +33,13 @@ Use hduser whent executing commadn
 
 ## Setting up Spark in Yarn
 
+### Recap of Definitions
+
+* RESOURCE MANAGER (YARN) - manages all resources :O
+* NODE MANAGER (HADOOP) - manages file system
+* APPLICATION MASTER - For every application, there exists 1 master. concept in yarn. Allows to run multiple applications at the same time
+* CONTAINER - resizabel. useful for spark.
+
 ### Settings
 
 #### Distributed or Local ?
@@ -26,7 +48,7 @@ I'm not entirely sure, but like in hadoop I think the settings should be shared 
 
 >  pyspark --master yarn-cluster --driver-memory 4g \
 
-Please note I have also written a script called shareSettings, which send settings to computers currently included in the cluster. 
+Please note I have also written a script called shareSettings, which send settings to computers currently included in the cluster.
 
 ### PROBLEMS
 
@@ -130,7 +152,7 @@ in hdfs they are list as
 
 ## Spark Tutorials Python
 
-* I think this is the most comprehensive tutorial, but its long. https://docs.databricks.com/spark/latest/training/index.html
+* [I think this is the most comprehensive tutorial, but its long.](https://docs.databricks.com/spark/latest/training/index.html)
 * http://spark.apache.org/docs/latest/running-on-yarn.html
 * https://www.supergloo.com/spark-tutorial/spark-tutorials-python/
 * https://districtdatalabs.silvrback.com/getting-started-with-spark-in-python
@@ -138,3 +160,29 @@ in hdfs they are list as
 * https://www.datacamp.com/community/tutorials/apache-spark-python#gs.9_=gwlg
 * http://spark.apache.org/docs/latest/quick-start.html
 * https://mapr.com/ebooks/spark/05-processing-tabular-data-with-spark-sql.html
+
+## Spark on Yarn Architecture
+
+### Tutorials used
+
+* http://badrit.com/blog/2015/2/29/running-spark-on-yarn#.WNSeW6IlGUl
+* http://blog.cloudera.com/blog/2014/05/apache-spark-resource-management-and-yarn-app-models/  
+* https://jaceklaskowski.gitbooks.io/mastering-apache-spark
+* https://www.cloudera.com/documentation/enterprise/5-6-x/topics/cdh_ig_running_spark_on_yarn.html
+* http://blog.cloudera.com/blog/2015/03/how-to-tune-your-apache-spark-jobs-part-1/
+* http://blog.cloudera.com/blog/2015/03/how-to-tune-your-apache-spark-jobs-part-2/
+
+
+### Definitions, SHORT CONCEPTS
+
+* CLIENT VS CLUSTER modified
+ * CLIENT MODE is when the driver is running inside the client process. (The one, who initiated application)
+ * CLUSTER MODE is when the driver is running inside Application master in yarn
+* APPLICATION
+ * JOB - like in yarn , runs inside application
+* DRIVER PROGRAM - Schdules tasks on Executors, Manages job flow
+* CLUSTER MANAGER - Starts executor processes
+* PARTITION - like in HDFS
+* SPARK-SUBMIT vs SPARK-SHELL/PYSPART
+  * SUBMIT - For scripts
+  * SHELL - for shell :O
