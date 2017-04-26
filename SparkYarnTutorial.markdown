@@ -19,7 +19,14 @@ date: "2017-04-19 12:59"
 	- [FOLDERS of THE LOADED DATA in hdfs](#)
 	- [Spark Tutorials Python](#)
 
-# Progress of Text Analysis Project
+#  Text Analysis Project
+
+## Intro
+
+Implemented google [N-GRAM](http://storage.googleapis.com/books/ngrams/books/datasetsv2.html) Analysis. This is a short summary of the problems, that occured and I have also provided some very good references. 
+
+
+
 
 ##  Description of conspect
 
@@ -145,7 +152,6 @@ I did the installation exactly like in this [tutorial](http://coolinux.com/blog/
 ## FOLDERS of THE LOADED DATA in hdfs
 
 i loaded 1-grams from fiction [link](http://storage.googleapis.com/books/ngrams/books/datasetsv2.html)
-
 in hdfs they are list as
 >/ngrams/test # 1 file  
 /ngrams/complete # all file
