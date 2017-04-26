@@ -202,5 +202,4 @@ in hdfs they are list as
   * ACTION
   *
 * RDD
-  * 	PARTITIONS
-  *
+  * PARTITIONS
