@@ -55,7 +55,12 @@ Use hduser whent executing commadn
 
 #### Distributed or Local ?
 
-I'm not entirely sure, but like in hadoop I think the settings should be shared to each machine, so I wrote  to hduser folder a script shareSpark, which shares all the spark conf/ files to all the other machines. However, I guess its always easier to start Spark Context with speficic settings on the command line like in this example:
+I'm not entirely sure, but like in hadoop I think the settings should be shared to each machine, so I wrote  to hduser folder a script shareSpark, which shares all the spark conf/ files to all the other machines. [Conf shared accross yarn ](http://spark.apache.org/docs/latest/running-on-yarn.html) Ensure that HADOOP_CONF_DIR or YARN_CONF_DIR points to the directory which contains the (client side) configuration files for the Hadoop cluster. These configs are used to write to HDFS and connect to the YARN ResourceManager. The configuration contained in this directory will be distributed to the YARN cluster so that all containers used by the application use the same configuration. If the configuration references Java system properties or 
+
+
+ However, I guess its always easier to start Spark Context with speficic settings on the command line like in this example:
+
+
 
 >  pyspark --master yarn-cluster --driver-memory 4g \
 
