@@ -6,9 +6,11 @@ date: "2017-04-19 12:59"
 
 **Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
 
-- [Progress of Text Analysis Project](#)
+- [Text Analysis Project](#)
+	- [Intro](#)
 	- [Description of conspect](#)
 	- [Setting up Spark in Yarn](#)
+		- [Recap of Definitions](#)
 		- [Settings](#)
 			- [Distributed or Local ?](#)
 		- [PROBLEMS](#)
@@ -18,12 +20,14 @@ date: "2017-04-19 12:59"
 		- [Starting Pyspark](#)
 	- [FOLDERS of THE LOADED DATA in hdfs](#)
 	- [Spark Tutorials Python](#)
-
+	- [Spark on Yarn Architecture](#)
+		- [Tutorials used](#)
+		- [Definitions, SHORT CONCEPTS](#)
 #  Text Analysis Project
 
 ## Intro
 
-Implemented google [N-GRAM](http://storage.googleapis.com/books/ngrams/books/datasetsv2.html) Analysis. This is a short summary of the problems, that occured and I have also provided some very good references. 
+Implemented google [N-GRAM](http://storage.googleapis.com/books/ngrams/books/datasetsv2.html) Analysis. This is a short summary of the problems, that occured and I have also provided some very good references.
 
 
 
@@ -192,3 +196,11 @@ in hdfs they are list as
 * SPARK-SUBMIT vs SPARK-SHELL/PYSPART
   * SUBMIT - For scripts
   * SHELL - for shell :O
+* TRANSFORMATION, ACTION
+  * TRANSFORMATION
+    * map
+  * ACTION
+  *
+* RDD
+  * 	PARTITIONS
+  *
