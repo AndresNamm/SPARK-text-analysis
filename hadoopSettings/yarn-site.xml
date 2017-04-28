@@ -27,7 +27,7 @@
 	</property>
 	<property>
 		<name>yarn.nodemanager.resource.memory-mb</name>
-		<value>4092</value>
+		<value>5020</value>
 	</property>
         <property>
                 <name>yarn.scheduler.minimum-allocation-mb</name>
@@ -35,7 +35,7 @@
         </property>
 	<property>
                 <name>yarn.scheduler.maximum-allocation-mb</name>
-                <value>3072</value>
+                <value>5020</value>
         </property>
 	<property>         
 	  <name>yarn.resourcemanager.nodes.exclude-path</name>        

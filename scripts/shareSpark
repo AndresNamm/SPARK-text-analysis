@@ -1,6 +1,6 @@
-#scp /opt/spark-2.1.0-bin-hadoop2.6/conf/* student14-x2:/opt/spark-2.1.0-bin-hadoop2.6/conf/ 
+scp /opt/spark-2.1.0-bin-hadoop2.6/conf/* student14-x2:/opt/spark-2.1.0-bin-hadoop2.6/conf/ 
 
-#scp /opt/spark-2.1.0-bin-hadoop2.6/conf/* student14-x1:/opt/spark-2.1.0-bin-hadoop2.6/conf/ 
+scp /opt/spark-2.1.0-bin-hadoop2.6/conf/* student14-x1:/opt/spark-2.1.0-bin-hadoop2.6/conf/ 
 
 scp /opt/spark-2.1.0-bin-hadoop2.6/conf/* student13-x2:/opt/spark-2.1.0-bin-hadoop2.6/conf/ 
 
@@ -8,6 +8,6 @@ scp /opt/spark-2.1.0-bin-hadoop2.6/conf/* student85-x2:/opt/spark-2.1.0-bin-hado
 
 scp /opt/spark-2.1.0-bin-hadoop2.6/conf/* student85-x1:/opt/spark-2.1.0-bin-hadoop2.6/conf/ 
 
-scp /opt/spark-2.1.0-bin-hadoop2.6/conf/* student1-x1:/opt/spark-2.1.0-bin-hadoop2.6/conf/ 
+#scp /opt/spark-2.1.0-bin-hadoop2.6/conf/* student1-x1:/opt/spark-2.1.0-bin-hadoop2.6/conf/ 
 
 #scp /opt/spark-2.1.0-bin-hadoop2.6/conf/* student1-x2:/opt/spark-2.1.0-bin-hadoop2.6/conf/
