@@ -23,9 +23,14 @@ date: "2017-04-19 12:59"
 	- [Spark on Yarn Architecture](#)
 		- [Tutorials used](#)
 		- [Definitions, SHORT CONCEPTS](#)
-#  Text Analysis Project
+
+# Text Analysis Project
+
+
+**All info related to this project is available at Github**: [Project setup](https://github.com/AndresNamm/SPARK-text-analysis.git) ; [Project Source](https://github.com/AndresNamm/NgramAnalysis.git)
 
 ## Intro
+
 
 Implemented google [N-GRAM](http://storage.googleapis.com/books/ngrams/books/datasetsv2.html) Analysis. This is a short summary of the problems, that occured and I have also provided some very good references.
 
@@ -55,7 +60,7 @@ Use hduser whent executing commadn
 
 #### Distributed or Local ?
 
-I'm not entirely sure, but like in hadoop I think the settings should be shared to each machine, so I wrote  to hduser folder a script shareSpark, which shares all the spark conf/ files to all the other machines. [Conf shared accross yarn ](http://spark.apache.org/docs/latest/running-on-yarn.html) Ensure that HADOOP_CONF_DIR or YARN_CONF_DIR points to the directory which contains the (client side) configuration files for the Hadoop cluster. These configs are used to write to HDFS and connect to the YARN ResourceManager. The configuration contained in this directory will be distributed to the YARN cluster so that all containers used by the application use the same configuration. If the configuration references Java system properties or 
+I'm not entirely sure, but like in hadoop I think the settings should be shared to each machine, so I wrote  to hduser folder a script shareSpark, which shares all the spark conf/ files to all the other machines. [Conf shared accross yarn ](http://spark.apache.org/docs/latest/running-on-yarn.html) Ensure that HADOOP_CONF_DIR or YARN_CONF_DIR points to the directory which contains the (client side) configuration files for the Hadoop cluster. These configs are used to write to HDFS and connect to the YARN ResourceManager. The configuration contained in this directory will be distributed to the YARN cluster so that all containers used by the application use the same configuration. If the configuration references Java system properties or
 
 
  However, I guess its always easier to start Spark Context with speficic settings on the command line like in this example:
@@ -168,6 +173,7 @@ in hdfs they are list as
 ## Spark Tutorials Python
 
 * [I think this is the most comprehensive tutorial, but its long.](https://docs.databricks.com/spark/latest/training/index.html)
+* [Spark job Visualisation](https://databricks.com/blog/2015/06/22/understanding-your-spark-application-through-visualization.html)
 * http://spark.apache.org/docs/latest/running-on-yarn.html
 * https://www.supergloo.com/spark-tutorial/spark-tutorials-python/
 * https://districtdatalabs.silvrback.com/getting-started-with-spark-in-python
