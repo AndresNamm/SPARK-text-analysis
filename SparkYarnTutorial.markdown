@@ -32,82 +32,86 @@ date: "2017-04-19 12:59"
 ## Intro
 
 
-Implemented google [N-GRAM](http://storage.googleapis.com/books/ngrams/books/datasetsv2.html) Analysis. This is a short summary of the problems, that occured and I have also provided some very good references.
+We Implemented google [N-GRAM](http://storage.googleapis.com/books/ngrams/books/datasetsv2.html) 
+Analysis. This is a short summary of the problem we solved and issues that occured and how we solved them. 
+I have also included some references to good tutorials and I hope some of my insights can help people who are solving different problems than this. 
+The analysis we did is rather simple, but it is a good example, because it involves a large dataset, which takes a lot of time to analyse. This allows 
+us to take advantage of a lot of features of spark withou focusing too much on the complexities of underlying algorithms.
 
 
+Dataset: google 1gram;science-fiction books;5.2 GB of data  
+Enviroment: Cluster with 5 nodes <- 1 master and 4 slaves. 
 
 
-##  Description of conspect
-
-Because I had a lot of trouble with the topics mentioned below, I decided to put together somewhat a conspect of references to make your life a bit more easy.
-* setting up spark, understanding how spark with yarn works
-* understanding the weird errors I sometimes got
-* understanding logging both from yarn and spark
-* Getting into understanding Spark Development, tutorial sources and so on
 
 Use hduser whent executing commadn
 
 ## Setting up Spark in Yarn
 
-### Recap of Definitions
+### Recap of Definitions in Hadoop
 
 * RESOURCE MANAGER (YARN) - manages all resources :O
 * NODE MANAGER (HADOOP) - manages file system
 * APPLICATION MASTER - For every application, there exists 1 master. concept in yarn. Allows to run multiple applications at the same time
 * CONTAINER - resizabel. useful for spark.
 
-### Settings
+### Definitions for Hadoop and Yarn
 
-#### Distributed or Local ?
+* CLIENT VS CLUSTER modified
+ * CLIENT MODE is when the driver is running inside the client process. (The one, who initiated application)
+ * CLUSTER MODE is when the driver is running inside Application master in yarn
+* APPLICATION
+ * JOB - like in yarn , runs inside application
+* DRIVER PROGRAM - Schdules tasks on Executors, Manages job flow
+* CLUSTER MANAGER - Starts executor processes
+* PARTITION - like in HDFS
+* SPARK-SUBMIT vs SPARK-SHELL/PYSPART
+  * SUBMIT - For scripts
+  * SHELL - for shell :O
+* TRANSFORMATION, ACTION
+  * TRANSFORMATION
+    * map
+  * ACTION
+  *
+* RDD
+  * PARTITIONS
 
-I'm not entirely sure, but like in hadoop I think the settings should be shared to each machine, so I wrote  to hduser folder a script shareSpark, which shares all the spark conf/ files to all the other machines. [Conf shared accross yarn ](http://spark.apache.org/docs/latest/running-on-yarn.html) Ensure that HADOOP_CONF_DIR or YARN_CONF_DIR points to the directory which contains the (client side) configuration files for the Hadoop cluster. These configs are used to write to HDFS and connect to the YARN ResourceManager. The configuration contained in this directory will be distributed to the YARN cluster so that all containers used by the application use the same configuration. If the configuration references Java system properties or
+### Scripts
 
 
- However, I guess its always easier to start Spark Context with speficic settings on the command line like in this example:
+To ease the management of services I wrote 3 scripts: startHadoop: Restarts the hadoop environment; shareSettings: shares hadoop settings across specified nodes;
+shareSpark: shares spark settings across the cluster.
 
+### Starting spark with settings
 
+For debugging I guess its always easier to start Spark Context with speficic settings on the command line like in this example:
 
->  pyspark --master yarn-cluster --driver-memory 4g \
+>  ./spark-shell   
+>  pyspark --master yarn-cluster [--driver-memory 4g]   \
 
 Please note I have also written a script called shareSettings, which send settings to computers currently included in the cluster.
 
-### PROBLEMS
+### Important settings
 
-As mentioned earlier I had tons of problems running spark. To solve these problems, I had to modify 2 files
-spark-env.sh and spark-defaults.conf. I'm actually not sure, which of the settings files has a bigger impact. These settings are also shared to every computer in the cluster with script sharesSpark.
+Because spark uses the principle, that all executors have to share same settings, I configured yarn to be the same across all nodes and decommissioned nodes, 
+that would have become bottlenecks with decommissioning procedure.
 
-In spark-env.sh I modified
+**spark.defaults** - spark setting when you dont specify anything else8 in the commandline or in the program
 
-
->HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop  
-LD_LIBRARY_PATH=/opt/hadoop-2.6.0/lib/native:$LD_LIBRARY_PATH  
-SPARK_MASTER_IP=student13-x1  
-SPARK_EXECUTOR_INSTANCES=3  
-SPARK_EXECUTOR_MEMORY=4G  
-SPARK_DRIVER_MEMORY=2G  
-
-In spark-defaults I modified
-
->spark.master                     spark://student13-x1:7077  
-spark.eventLog.enabled           true  
-spark.eventLog.dir               hdfs://student13-x1:9000/tmp/sparkLog  
-spark.history.fs.logDirectory    hdfs://student13-x1:9000/tmp/sparkLog  
-spark.serializer                 org.apache.spark.serializer.KryoSerializer  
-spark.executor.instances         3  
-spark.yarn.archive               hdfs://student13-x1:9000/addedlibs/spark-archive.zip  
-spark.executor.memory            1g  
-spark.driver.memory              4g   
-spark.yarn.executor.memoryOverhead 700    
+>spark.executor.instances         4  
+spark.yarn.archive		 hdfs://student13-x1:9000/addedlibs/spark-archive.zip   
+spark.executor.memory		 4g  
+spark.driver.memory		 4g  
+spark.yarn.executor.memoryOverhead 700  
 spark.yarn.driver.memoryOverhead   1000  
-spark.yarn.am.memoryOverhead       700  
+spark.yarn.am.memoryOverhead       700   
 
 
-In yarn-site.xml I modified
-
+**yarn-site.xml** 
 
 ><property>  
         <name>yarn.nodemanager.resource.memory-mb</name>  
-        <value>4092</value>  
+        <value>5020</value>  
 </property>  
 <property>  
         <name>yarn.scheduler.minimum-allocation-mb</name>  
@@ -115,7 +119,7 @@ In yarn-site.xml I modified
 </property>  
 <property>  
         <name>yarn.scheduler.maximum-allocation-mb</name>  
-        <value>3072</value>  
+        <value>5020</value>  
 </property>  
 <property>  
   <name>yarn.resourcemanager.nodes.exclude-path</name>  
@@ -126,7 +130,18 @@ In yarn-site.xml I modified
 
 
 
-For problem solving I used these links.
+### Problems
+
+Error TimeLine       
+1. The Spark Shell starts
+2. Error – Slave Lost – Happened with diferent slaves, with Scala and Pyspark. Yarn container logs dont show any memory issues. 
+
+Turns out the error comes from java 8 using too much VM which does not fit into the bounds of Spark boundaries. These settings made all the errors
+disappear.
+
+>spark.yarn.executor.memoryOverhead 700    
+spark.yarn.driver.memoryOverhead   1000   
+spark.yarn.am.memoryOverhead       700    
 
 * http://stackoverflow.com/questions/28967500/why-spark-application-fail-with-executor-coarsegrainedexecutorbackend-driver-d  
 * http://stackoverflow.com/questions/27792839/spark-fail-when-running-pi-py-example-with-yarn-client-mode
@@ -136,9 +151,12 @@ For problem solving I used these links.
 
 ### Logging
 
+Overally it seems like Hadoop logs are more specific regarding resources like physical and virtual memory whereas spark logs the events
+and their execution sequences, e.g. it is more abstract.
+
 You can find container logs under  the nodes , which ran the container
-Fore example container logs for student13-x1  
-http://202.45.128.135:15913/logs/userlogs/application_1490663309971_0002/container_1490663309971_0002_01_000001/
+For example in this project container logs for student13-x1. The ip naturally 
+http://[IP]/logs/userlogs/application_1490663309971_0002/container_1490663309971_0002_01_000001/
 
 
 ## Ipython Notebook
@@ -163,13 +181,6 @@ I did the installation exactly like in this [tutorial](http://coolinux.com/blog/
 (token is different every time naturally)
 
 
-## FOLDERS of THE LOADED DATA in hdfs
-
-i loaded 1-grams from fiction [link](http://storage.googleapis.com/books/ngrams/books/datasetsv2.html)
-in hdfs they are list as
->/ngrams/test # 1 file  
-/ngrams/complete # all file
-
 ## Spark Tutorials Python
 
 * [I think this is the most comprehensive tutorial, but its long.](https://docs.databricks.com/spark/latest/training/index.html)
@@ -184,7 +195,6 @@ in hdfs they are list as
 
 ## Spark on Yarn Architecture
 
-### Tutorials used
 
 * http://badrit.com/blog/2015/2/29/running-spark-on-yarn#.WNSeW6IlGUl
 * http://blog.cloudera.com/blog/2014/05/apache-spark-resource-management-and-yarn-app-models/  
@@ -194,23 +204,4 @@ in hdfs they are list as
 * http://blog.cloudera.com/blog/2015/03/how-to-tune-your-apache-spark-jobs-part-2/
 
 
-### Definitions, SHORT CONCEPTS
 
-* CLIENT VS CLUSTER modified
- * CLIENT MODE is when the driver is running inside the client process. (The one, who initiated application)
- * CLUSTER MODE is when the driver is running inside Application master in yarn
-* APPLICATION
- * JOB - like in yarn , runs inside application
-* DRIVER PROGRAM - Schdules tasks on Executors, Manages job flow
-* CLUSTER MANAGER - Starts executor processes
-* PARTITION - like in HDFS
-* SPARK-SUBMIT vs SPARK-SHELL/PYSPART
-  * SUBMIT - For scripts
-  * SHELL - for shell :O
-* TRANSFORMATION, ACTION
-  * TRANSFORMATION
-    * map
-  * ACTION
-  *
-* RDD
-  * PARTITIONS
