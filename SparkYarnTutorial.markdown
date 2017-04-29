@@ -6,23 +6,23 @@ date: "2017-04-19 12:59"
 
 **Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
 
+**Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
+
 - [Text Analysis Project](#)
 	- [Intro](#)
-	- [Description of conspect](#)
 	- [Setting up Spark in Yarn](#)
-		- [Recap of Definitions](#)
-		- [Settings](#)
-			- [Distributed or Local ?](#)
-		- [PROBLEMS](#)
+		- [Recap of Definitions in Hadoop](#)
+		- [Definitions for Hadoop and Yarn](#)
+		- [Starting spark](#)
+		- [Important settings](#)
+		- [Problems](#)
 		- [Logging](#)
+		- [Managing the CLUSTER](#)
 	- [Ipython Notebook](#)
 		- [Installation](#)
 		- [Starting Pyspark](#)
-	- [FOLDERS of THE LOADED DATA in hdfs](#)
 	- [Spark Tutorials Python](#)
 	- [Spark on Yarn Architecture](#)
-		- [Tutorials used](#)
-		- [Definitions, SHORT CONCEPTS](#)
 
 # Text Analysis Project
 
@@ -82,6 +82,19 @@ Use hduser whent executing commadn
 For debugging I guess its always easier to start Spark Context with speficic settings on the command line like in this example:
 
 >  pyspark --master yarn-cluster [--driver-memory 4g]   -- for python with settings
+
+
+### Cluster division studentX - dom0, studentX-xX - vm
+
+* student1 – Ganglia    
+* student1-x1 project webpage    
+* student1-x2 project administration page    
+* student13-x1 Hadoop master  
+* student85-x1 slave  
+* student85-x2 slave  
+* student13-x2 slave  
+* student14-x1 slave  
+* student14-x2 slave  
 
 
 ### Important settings
