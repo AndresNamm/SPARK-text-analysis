@@ -54,10 +54,11 @@ Enviroment: Cluster with 5 nodes <- 1 master and 4 slaves.
 ### Definitions for Hadoop and Yarn
 
 * CLIENT VS CLUSTER modified
- * CLIENT MODE is when the driver is running inside the client process. (The one, who initiated application)
- * CLUSTER MODE is when the driver is running inside Application master in yarn
+  * CLIENT MODE is when the driver is running inside the client process. (The one, who initiated application)
+  * CLUSTER MODE is when the driver is running inside Application master in yarn
 * APPLICATION
- * JOB - like in yarn , runs inside application
+  * JOB - like in yarn , runs inside application
+  * TASK - like in yarn
 * DRIVER PROGRAM - Schdules tasks on Executors, Manages job flow
 * CLUSTER MANAGER - Starts executor processes
 * PARTITION - like in HDFS
@@ -66,11 +67,11 @@ Enviroment: Cluster with 5 nodes <- 1 master and 4 slaves.
   * SHELL - for shell :O
 * TRANSFORMATION, ACTION
   * TRANSFORMATION
-    * map
+    * for example map
   * ACTION
-  *
+    * for example reduce
 * RDD
-  * PARTITIONS
+  * PARTITIONS - blocksize in hdfs. More => More paralelism.
 
 
 ### Starting spark 

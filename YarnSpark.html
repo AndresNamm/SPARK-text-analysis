@@ -65,10 +65,7 @@ For example The <strong>execution improvements</strong> we got from adding extra
 x most popular words from each year ( map and reduce job on all 5.2 GB of data ) from 40 minutes to 30 minutes. It is a clear example of parallelism. </p>
 
 <p>Dataset: google 1gram;science-fiction books;5.2 GB of data <br />
-Enviroment: Cluster with 5 nodes &lt;- 1 master and 4 slaves. 
-The </p>
-
-<p>Use hduser whent executing commadn</p>
+Enviroment: Cluster with 5 nodes &lt;- 1 master and 4 slaves. </p>
 
 <h2 id="settingupsparkinyarn">Setting up Spark in Yarn</h2>
 
@@ -100,7 +97,9 @@ The </p>
 
 
 <ul>
-<li>JOB - like in yarn , runs inside application</li></ul>
+<li>JOB - like in yarn , runs inside application</li>
+
+<li>TASK - like in yarn</li></ul>
 </li>
 
 <li>DRIVER PROGRAM - Schdules tasks on Executors, Manages job flow</li>
@@ -124,17 +123,18 @@ The </p>
 <ul>
 <li>TRANSFORMATION</li>
 
-<li>map</li>
+<li>for example map</li>
 
-<li>ACTION
-*</li></ul>
+<li>ACTION</li>
+
+<li>for example reduce</li></ul>
 </li>
 
 <li>RDD
 
 
 <ul>
-<li>PARTITIONS</li></ul>
+<li>PARTITIONS - blocksize in hdfs. More => More paralelism.</li></ul>
 </li>
 </ul>
 
