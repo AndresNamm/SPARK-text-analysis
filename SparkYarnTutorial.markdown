@@ -76,25 +76,18 @@ Use hduser whent executing commadn
 * RDD
   * PARTITIONS
 
-### Scripts
 
-
-To ease the management of services I wrote 3 scripts: startHadoop: Restarts the hadoop environment; shareSettings: shares hadoop settings across specified nodes;
-shareSpark: shares spark settings across the cluster.
-
-### Starting spark with settings
+### Starting spark 
 
 For debugging I guess its always easier to start Spark Context with speficic settings on the command line like in this example:
 
->  ./spark-shell   
->  pyspark --master yarn-cluster [--driver-memory 4g]   \
+>  pyspark --master yarn-cluster [--driver-memory 4g]   -- for python with settings
 
-Please note I have also written a script called shareSettings, which send settings to computers currently included in the cluster.
 
 ### Important settings
 
 Because spark uses the principle, that all executors have to share same settings, I configured yarn to be the same across all nodes and decommissioned nodes, 
-that would have become bottlenecks with decommissioning procedure.
+that would have become bottlenecks with decommissioning procedure. This also allows easier cluster management.
 
 **spark.defaults** - spark setting when you dont specify anything else8 in the commandline or in the program
 
@@ -157,6 +150,15 @@ and their execution sequences, e.g. it is more abstract.
 You can find container logs under  the nodes , which ran the container
 For example in this project container logs for student13-x1. The ip naturally 
 http://[IP]/logs/userlogs/application_1490663309971_0002/container_1490663309971_0002_01_000001/
+
+
+### Managing the CLUSTER
+
+* SCRIPTS - To ease the management of services I wrote 3 scripts: startHadoop: Restarts the hadoop environment; shareSettings: shares hadoop settings across specified nodes;
+shareSpark: shares spark settings across the cluster.  
+* GITHUB - allows easily to get access to important settings to analize them. Can store the development history. Good intermediate between the cluster and other computers   
+* [GANGLIA](http://ganglia.sourceforge.net/) - Provides simple interface to have an overall view of resource usages.
+* ListOflinks - It's good to keep a simple website which references all the web interfaces you have in the project. Otherwise it's easy to loose track 
 
 
 ## Ipython Notebook
