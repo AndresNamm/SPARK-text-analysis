@@ -41,10 +41,6 @@ x most popular words from each year ( map and reduce job on all 5.2 GB of data )
 
 Dataset: google 1gram;science-fiction books;5.2 GB of data  
 Enviroment: Cluster with 5 nodes <- 1 master and 4 slaves. 
-The 
-
-
-Use hduser whent executing commadn
 
 ## Setting up Spark in Yarn
 
