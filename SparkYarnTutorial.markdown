@@ -6,14 +6,13 @@ date: "2017-04-19 12:59"
 
 **Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
 
-**Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
-
 - [Text Analysis Project](#)
 	- [Intro](#)
 	- [Setting up Spark in Yarn](#)
 		- [Recap of Definitions in Hadoop](#)
 		- [Definitions for Hadoop and Yarn](#)
 		- [Starting spark](#)
+		- [Cluster division studentX - dom0, studentX-xX - vm](#)
 		- [Important settings](#)
 		- [Problems](#)
 		- [Logging](#)
