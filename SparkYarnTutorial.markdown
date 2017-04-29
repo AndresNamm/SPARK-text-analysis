@@ -35,9 +35,9 @@ We Implemented google [N-GRAM](http://storage.googleapis.com/books/ngrams/books/
 Analysis with Spark on Yarn. This is a short summary of the problem we solved and issues that occured and how we solved them. 
 I have also included some references to good tutorials and I hope some of my insights can help people who are solving different problems than this. 
 The analysis we did is rather simple, but it is a good example, because it involves a large dataset, which takes a lot of time to analyse. This allows 
-us to take advantage of a lot of features of spark  withou focusing too much on the complexities of underlying algorithms. 
-For ecample The **execution improvements** we got from adding extra memory to executors and adding extra nodes reduced the time of 
-1 part of our project (map andreduce) from 40 minutes to 30 minutes. It is a clear example of paralelism. 
+us to take advantage of a lot of features of spark  withou focusing too much on the complexities of underlying algorithms.   
+For example The **execution improvements** we got from adding extra memory to executors and adding extra nodes reduced the time of finding
+x most popular words from each year ( map and reduce job on all 5.2 GB of data ) from 40 minutes to 30 minutes. It is a clear example of parallelism. 
 
 Dataset: google 1gram;science-fiction books;5.2 GB of data  
 Enviroment: Cluster with 5 nodes <- 1 master and 4 slaves. 
