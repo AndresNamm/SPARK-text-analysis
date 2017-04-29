@@ -14,24 +14,25 @@ title: "GP_Andres"</p>
 <ul>
 <li><a href="#">Intro</a></li>
 
-<li><a href="#">Description of conspect</a></li>
-
 <li><a href="#">Setting up Spark in Yarn</a>
 
 
 <ul>
-<li><a href="#">Recap of Definitions</a></li>
+<li><a href="#">Recap of Definitions in Hadoop</a></li>
 
-<li><a href="#">Settings</a>
+<li><a href="#">Definitions for Hadoop and Yarn</a></li>
 
+<li><a href="#">Starting spark</a></li>
 
-<ul>
-<li><a href="#">Distributed or Local ?</a></li></ul>
-</li>
+<li><a href="#">Cluster division studentX - dom0, studentX-xX - vm</a></li>
 
-<li><a href="#">PROBLEMS</a></li>
+<li><a href="#">Important settings</a></li>
 
-<li><a href="#">Logging</a></li></ul>
+<li><a href="#">Problems</a></li>
+
+<li><a href="#">Logging</a></li>
+
+<li><a href="#">Managing the CLUSTER</a></li></ul>
 </li>
 
 <li><a href="#">Ipython Notebook</a>
@@ -43,18 +44,9 @@ title: "GP_Andres"</p>
 <li><a href="#">Starting Pyspark</a></li></ul>
 </li>
 
-<li><a href="#">FOLDERS of THE LOADED DATA in hdfs</a></li>
-
 <li><a href="#">Spark Tutorials Python</a></li>
 
-<li><a href="#">Spark on Yarn Architecture</a>
-
-
-<ul>
-<li><a href="#">Tutorials used</a></li>
-
-<li><a href="#">Definitions, SHORT CONCEPTS</a></li></ul>
-</li></ul>
+<li><a href="#">Spark on Yarn Architecture</a></li></ul>
 </li>
 </ul>
 
@@ -64,27 +56,20 @@ title: "GP_Andres"</p>
 
 <h2 id="intro">Intro</h2>
 
-<p>Implemented google <a href="http://storage.googleapis.com/books/ngrams/books/datasetsv2.html">N-GRAM</a> Analysis. This is a short summary of the problems, that occured and I have also provided some very good references.</p>
+<p>We Implemented google <a href="http://storage.googleapis.com/books/ngrams/books/datasetsv2.html">N-GRAM</a> 
+Analysis. This is a short summary of the problem we solved and issues that occured and how we solved them. 
+I have also included some references to good tutorials and I hope some of my insights can help people who are solving different problems than this. 
+The analysis we did is rather simple, but it is a good example, because it involves a large dataset, which takes a lot of time to analyse. This allows 
+us to take advantage of a lot of features of spark withou focusing too much on the complexities of underlying algorithms.</p>
 
-<h2 id="descriptionofconspect">Description of conspect</h2>
-
-<p>Because I had a lot of trouble with the topics mentioned below, I decided to put together somewhat a conspect of references to make your life a bit more easy.</p>
-
-<ul>
-<li>setting up spark, understanding how spark with yarn works</li>
-
-<li>understanding the weird errors I sometimes got</li>
-
-<li>understanding logging both from yarn and spark</li>
-
-<li>Getting into understanding Spark Development, tutorial sources and so on</li>
-</ul>
+<p>Dataset: google 1gram;science-fiction books;5.2 GB of data <br />
+Enviroment: Cluster with 5 nodes &lt;- 1 master and 4 slaves. </p>
 
 <p>Use hduser whent executing commadn</p>
 
 <h2 id="settingupsparkinyarn">Setting up Spark in Yarn</h2>
 
-<h3 id="recapofdefinitions">Recap of Definitions</h3>
+<h3 id="recapofdefinitionsinhadoop">Recap of Definitions in Hadoop</h3>
 
 <ul>
 <li>RESOURCE MANAGER (YARN) - manages all resources :O</li>
@@ -96,176 +81,7 @@ title: "GP_Andres"</p>
 <li>CONTAINER - resizabel. useful for spark.</li>
 </ul>
 
-<h3 id="settings">Settings</h3>
-
-<h4 id="distributedorlocal">Distributed or Local ?</h4>
-
-<p>I'm not entirely sure, but like in hadoop I think the settings should be shared to each machine, so I wrote  to hduser folder a script shareSpark, which shares all the spark conf/ files to all the other machines. <a href="http://spark.apache.org/docs/latest/running-on-yarn.html">Conf shared accross yarn </a> Ensure that HADOOP<em>CONF</em>DIR or YARN<em>CONF</em>DIR points to the directory which contains the (client side) configuration files for the Hadoop cluster. These configs are used to write to HDFS and connect to the YARN ResourceManager. The configuration contained in this directory will be distributed to the YARN cluster so that all containers used by the application use the same configuration. If the configuration references Java system properties or</p>
-
-<p>However, I guess its always easier to start Spark Context with speficic settings on the command line like in this example:</p>
-
-<blockquote>
-  <p>pyspark --master yarn-cluster --driver-memory 4g \</p>
-</blockquote>
-
-<p>Please note I have also written a script called shareSettings, which send settings to computers currently included in the cluster.</p>
-
-<h3 id="problems">PROBLEMS</h3>
-
-<p>As mentioned earlier I had tons of problems running spark. To solve these problems, I had to modify 2 files
-spark-env.sh and spark-defaults.conf. I'm actually not sure, which of the settings files has a bigger impact. These settings are also shared to every computer in the cluster with script sharesSpark.</p>
-
-<p>In spark-env.sh I modified</p>
-
-<blockquote>
-  <p>HADOOP<em>CONF</em>DIR=$HADOOP<em>HOME/etc/hadoop <br />
-  LD</em>LIBRARY<em>PATH=/opt/hadoop-2.6.0/lib/native:$LD</em>LIBRARY<em>PATH <br />
-  SPARK</em>MASTER<em>IP=student13-x1 <br />
-  SPARK</em>EXECUTOR<em>INSTANCES=3 <br />
-  SPARK</em>EXECUTOR<em>MEMORY=4G <br />
-  SPARK</em>DRIVER_MEMORY=2G  </p>
-</blockquote>
-
-<p>In spark-defaults I modified</p>
-
-<blockquote>
-  <p>spark.master                     spark://student13-x1:7077 <br />
-  spark.eventLog.enabled           true <br />
-  spark.eventLog.dir               hdfs://student13-x1:9000/tmp/sparkLog <br />
-  spark.history.fs.logDirectory    hdfs://student13-x1:9000/tmp/sparkLog <br />
-  spark.serializer                 org.apache.spark.serializer.KryoSerializer <br />
-  spark.executor.instances         3 <br />
-  spark.yarn.archive               hdfs://student13-x1:9000/addedlibs/spark-archive.zip <br />
-  spark.executor.memory            1g <br />
-  spark.driver.memory              4g <br />
-  spark.yarn.executor.memoryOverhead 700 <br />
-  spark.yarn.driver.memoryOverhead   1000 <br />
-  spark.yarn.am.memoryOverhead       700  </p>
-</blockquote>
-
-<p>In yarn-site.xml I modified</p>
-
-<blockquote>
-  <p><property> <br />
-          <name>yarn.nodemanager.resource.memory-mb</name> <br />
-          <value>4092</value> <br />
-  </property> <br />
-  <property> <br />
-          <name>yarn.scheduler.minimum-allocation-mb</name> <br />
-          <value>1024</value> <br />
-  </property> <br />
-  <property> <br />
-          <name>yarn.scheduler.maximum-allocation-mb</name> <br />
-          <value>3072</value> <br />
-  </property> <br />
-  <property> <br />
-    <name>yarn.resourcemanager.nodes.exclude-path</name> <br />
-    <value>/opt/hadoop-2.6.0/etc/hadoop/yarn.exclude</value> <br />
-    <final>true</final> <br />
-  </property>  </p>
-</blockquote>
-
-<p>For problem solving I used these links.</p>
-
-<ul>
-<li>http://stackoverflow.com/questions/28967500/why-spark-application-fail-with-executor-coarsegrainedexecutorbackend-driver-d  </li>
-
-<li>http://stackoverflow.com/questions/27792839/spark-fail-when-running-pi-py-example-with-yarn-client-mode</li>
-
-<li>http://stackoverflow.com/questions/28967500/why-spark-application-fail-with-executor-coarsegrainedexecutorbackend-driver-d</li>
-
-<li>http://stackoverflow.com/questions/33141129/why-spark-executor-receives-sigterm</li>
-</ul>
-
-<h3 id="logging">Logging</h3>
-
-<p>You can find container logs under  the nodes , which ran the container
-Fore example container logs for student13-x1 <br />
-http://202.45.128.135:15913/logs/userlogs/application<em>1490663309971</em>0002/container<em>1490663309971</em>0002<em>01</em>000001/</p>
-
-<h2 id="ipythonnotebook">Ipython Notebook</h2>
-
-<h3 id="installation">Installation</h3>
-
-<ul>
-<li>I had to install pip and ipython jupyter according to this <a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-a-jupyter-notebook-to-run-ipython-on-ubuntu-16-04">tutorial</a> and then perform tunneling, which was specific to my envrionment.
-Notebook is accessible, when its running in port 18813</li>
-
-<li>Now I have to try to configure spark and both iphyhton so spark context could be commanded in Ipython Environment
-I did the installation exactly like in this [tutorial](http://coolinux.com/blog/2015/07/24/install-pyspark-and-integrate-ipython/
-) except for the</li>
-</ul>
-
-<blockquote>
-  <p>PYSPARK<em>DRIVER</em>PYTHON_OPTS='notebook --ip=* ' pyspark'</p>
-</blockquote>
-
-<p>I also had to specify pyspark in .profile file in my home directory to be a path variable</p>
-
-<h3 id="startingpyspark">Starting Pyspark</h3>
-
-<ul>
-<li>Now, to start ipython together with spark just execute at hduser@student13-x1</li>
-</ul>
-
-<blockquote>
-  <p>pyspark --master yarn [other options ]          </p>
-</blockquote>
-
-<p>at you home directory or wherever you find this most reasonable. This starts a Ipython notebook in address http://202.45.128.135:18813/?token=dsmaofnfds
-(token is different every time naturally)</p>
-
-<h2 id="foldersoftheloadeddatainhdfs">FOLDERS of THE LOADED DATA in hdfs</h2>
-
-<p>i loaded 1-grams from fiction <a href="http://storage.googleapis.com/books/ngrams/books/datasetsv2.html">link</a>
-in hdfs they are list as</p>
-
-<blockquote>
-  <p>/ngrams/test # 1 file <br />
-  /ngrams/complete # all file</p>
-</blockquote>
-
-<h2 id="sparktutorialspython">Spark Tutorials Python</h2>
-
-<ul>
-<li><a href="https://docs.databricks.com/spark/latest/training/index.html">I think this is the most comprehensive tutorial, but its long.</a></li>
-
-<li><a href="https://databricks.com/blog/2015/06/22/understanding-your-spark-application-through-visualization.html">Spark job Visualisation</a></li>
-
-<li>http://spark.apache.org/docs/latest/running-on-yarn.html</li>
-
-<li>https://www.supergloo.com/spark-tutorial/spark-tutorials-python/</li>
-
-<li>https://districtdatalabs.silvrback.com/getting-started-with-spark-in-python</li>
-
-<li>https://www.dezyre.com/apache-spark-tutorial/pyspark-tutorial</li>
-
-<li>https://www.datacamp.com/community/tutorials/apache-spark-python#gs.9_=gwlg</li>
-
-<li>http://spark.apache.org/docs/latest/quick-start.html</li>
-
-<li>https://mapr.com/ebooks/spark/05-processing-tabular-data-with-spark-sql.html</li>
-</ul>
-
-<h2 id="sparkonyarnarchitecture">Spark on Yarn Architecture</h2>
-
-<h3 id="tutorialsused">Tutorials used</h3>
-
-<ul>
-<li>http://badrit.com/blog/2015/2/29/running-spark-on-yarn#.WNSeW6IlGUl</li>
-
-<li>http://blog.cloudera.com/blog/2014/05/apache-spark-resource-management-and-yarn-app-models/  </li>
-
-<li>https://jaceklaskowski.gitbooks.io/mastering-apache-spark</li>
-
-<li>https://www.cloudera.com/documentation/enterprise/5-6-x/topics/cdh<em>ig</em>running<em>spark</em>on_yarn.html</li>
-
-<li>http://blog.cloudera.com/blog/2015/03/how-to-tune-your-apache-spark-jobs-part-1/</li>
-
-<li>http://blog.cloudera.com/blog/2015/03/how-to-tune-your-apache-spark-jobs-part-2/</li>
-</ul>
-
-<h3 id="definitionsshortconcepts">Definitions, SHORT CONCEPTS</h3>
+<h3 id="definitionsforhadoopandyarn">Definitions for Hadoop and Yarn</h3>
 
 <ul>
 <li>CLIENT VS CLUSTER modified
@@ -317,4 +133,194 @@ in hdfs they are list as</p>
 <ul>
 <li>PARTITIONS</li></ul>
 </li>
+</ul>
+
+<h3 id="startingspark">Starting spark</h3>
+
+<p>For debugging I guess its always easier to start Spark Context with speficic settings on the command line like in this example:</p>
+
+<blockquote>
+  <p>pyspark --master yarn-cluster [--driver-memory 4g]   -- for python with settings</p>
+</blockquote>
+
+<h3 id="clusterdivisionstudentxdom0studentxxxvm">Cluster division studentX - dom0, studentX-xX - vm</h3>
+
+<ul>
+<li>student1 – Ganglia    </li>
+
+<li>student1-x1 project webpage    </li>
+
+<li>student1-x2 project administration page    </li>
+
+<li>student13-x1 Hadoop master  </li>
+
+<li>student85-x1 slave  </li>
+
+<li>student85-x2 slave  </li>
+
+<li>student13-x2 slave  </li>
+
+<li>student14-x1 slave  </li>
+
+<li>student14-x2 slave  </li>
+</ul>
+
+<h3 id="importantsettings">Important settings</h3>
+
+<p>Because spark uses the principle, that all executors have to share same settings, I configured yarn to be the same across all nodes and decommissioned nodes, 
+that would have become bottlenecks with decommissioning procedure. This also allows easier cluster management.</p>
+
+<p><strong>spark.defaults</strong> - spark setting when you dont specify anything else8 in the commandline or in the program</p>
+
+<blockquote>
+  <p>spark.executor.instances         4 <br />
+  spark.yarn.archive         hdfs://student13-x1:9000/addedlibs/spark-archive.zip <br />
+  spark.executor.memory         4g <br />
+  spark.driver.memory         4g <br />
+  spark.yarn.executor.memoryOverhead 700 <br />
+  spark.yarn.driver.memoryOverhead   1000 <br />
+  spark.yarn.am.memoryOverhead       700   </p>
+</blockquote>
+
+<p><strong>yarn-site.xml</strong> </p>
+
+<blockquote>
+  <p><property> <br />
+          <name>yarn.nodemanager.resource.memory-mb</name> <br />
+          <value>5020</value> <br />
+  </property> <br />
+  <property> <br />
+          <name>yarn.scheduler.minimum-allocation-mb</name> <br />
+          <value>1024</value> <br />
+  </property> <br />
+  <property> <br />
+          <name>yarn.scheduler.maximum-allocation-mb</name> <br />
+          <value>5020</value> <br />
+  </property> <br />
+  <property> <br />
+    <name>yarn.resourcemanager.nodes.exclude-path</name> <br />
+    <value>/opt/hadoop-2.6.0/etc/hadoop/yarn.exclude</value> <br />
+    <final>true</final> <br />
+  </property>  </p>
+</blockquote>
+
+<h3 id="problems">Problems</h3>
+
+<p>Error TimeLine       </p>
+
+<ol>
+<li>The Spark Shell starts</li>
+
+<li>Error – Slave Lost – Happened with diferent slaves, with Scala and Pyspark. Yarn container logs dont show any memory issues. </li>
+</ol>
+
+<p>Turns out the error comes from java 8 using too much VM which does not fit into the bounds of Spark boundaries. These settings made all the errors
+disappear.</p>
+
+<blockquote>
+  <p>spark.yarn.executor.memoryOverhead 700 <br />
+  spark.yarn.driver.memoryOverhead   1000 <br />
+  spark.yarn.am.memoryOverhead       700    </p>
+</blockquote>
+
+<ul>
+<li>http://stackoverflow.com/questions/28967500/why-spark-application-fail-with-executor-coarsegrainedexecutorbackend-driver-d  </li>
+
+<li>http://stackoverflow.com/questions/27792839/spark-fail-when-running-pi-py-example-with-yarn-client-mode</li>
+
+<li>http://stackoverflow.com/questions/28967500/why-spark-application-fail-with-executor-coarsegrainedexecutorbackend-driver-d</li>
+
+<li>http://stackoverflow.com/questions/33141129/why-spark-executor-receives-sigterm</li>
+</ul>
+
+<h3 id="logging">Logging</h3>
+
+<p>Overally it seems like Hadoop logs are more specific regarding resources like physical and virtual memory whereas spark logs the events
+and their execution sequences, e.g. it is more abstract.</p>
+
+<p>You can find container logs under  the nodes , which ran the container
+For example in this project container logs for student13-x1. The ip naturally 
+http://[IP]/logs/userlogs/application<em>1490663309971</em>0002/container<em>1490663309971</em>0002<em>01</em>000001/</p>
+
+<h3 id="managingthecluster">Managing the CLUSTER</h3>
+
+<ul>
+<li>SCRIPTS - To ease the management of services I wrote 3 scripts: startHadoop: Restarts the hadoop environment; shareSettings: shares hadoop settings across specified nodes;
+shareSpark: shares spark settings across the cluster.  </li>
+
+<li>GITHUB - allows easily to get access to important settings to analize them. Can store the development history. Good intermediate between the cluster and other computers   </li>
+
+<li><a href="http://ganglia.sourceforge.net/">GANGLIA</a> - Provides simple interface to have an overall view of resource usages.</li>
+
+<li>ListOflinks - It's good to keep a simple website which references all the web interfaces you have in the project. Otherwise it's easy to loose track </li>
+</ul>
+
+<h2 id="ipythonnotebook">Ipython Notebook</h2>
+
+<h3 id="installation">Installation</h3>
+
+<ul>
+<li>I had to install pip and ipython jupyter according to this <a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-a-jupyter-notebook-to-run-ipython-on-ubuntu-16-04">tutorial</a> and then perform tunneling, which was specific to my envrionment.
+Notebook is accessible, when its running in port 18813</li>
+
+<li>Now I have to try to configure spark and both iphyhton so spark context could be commanded in Ipython Environment
+I did the installation exactly like in this [tutorial](http://coolinux.com/blog/2015/07/24/install-pyspark-and-integrate-ipython/
+) except for the</li>
+</ul>
+
+<blockquote>
+  <p>PYSPARK<em>DRIVER</em>PYTHON_OPTS='notebook --ip=* ' pyspark'</p>
+</blockquote>
+
+<p>I also had to specify pyspark in .profile file in my home directory to be a path variable</p>
+
+<h3 id="startingpyspark">Starting Pyspark</h3>
+
+<ul>
+<li>Now, to start ipython together with spark just execute at hduser@student13-x1</li>
+</ul>
+
+<blockquote>
+  <p>pyspark --master yarn [other options ]          </p>
+</blockquote>
+
+<p>at you home directory or wherever you find this most reasonable. This starts a Ipython notebook in address http://202.45.128.135:18813/?token=dsmaofnfds
+(token is different every time naturally)</p>
+
+<h2 id="sparktutorialspython">Spark Tutorials Python</h2>
+
+<ul>
+<li><a href="https://docs.databricks.com/spark/latest/training/index.html">I think this is the most comprehensive tutorial, but its long.</a></li>
+
+<li><a href="https://databricks.com/blog/2015/06/22/understanding-your-spark-application-through-visualization.html">Spark job Visualisation</a></li>
+
+<li>http://spark.apache.org/docs/latest/running-on-yarn.html</li>
+
+<li>https://www.supergloo.com/spark-tutorial/spark-tutorials-python/</li>
+
+<li>https://districtdatalabs.silvrback.com/getting-started-with-spark-in-python</li>
+
+<li>https://www.dezyre.com/apache-spark-tutorial/pyspark-tutorial</li>
+
+<li>https://www.datacamp.com/community/tutorials/apache-spark-python#gs.9_=gwlg</li>
+
+<li>http://spark.apache.org/docs/latest/quick-start.html</li>
+
+<li>https://mapr.com/ebooks/spark/05-processing-tabular-data-with-spark-sql.html</li>
+</ul>
+
+<h2 id="sparkonyarnarchitecture">Spark on Yarn Architecture</h2>
+
+<ul>
+<li>http://badrit.com/blog/2015/2/29/running-spark-on-yarn#.WNSeW6IlGUl</li>
+
+<li>http://blog.cloudera.com/blog/2014/05/apache-spark-resource-management-and-yarn-app-models/  </li>
+
+<li>https://jaceklaskowski.gitbooks.io/mastering-apache-spark</li>
+
+<li>https://www.cloudera.com/documentation/enterprise/5-6-x/topics/cdh<em>ig</em>running<em>spark</em>on_yarn.html</li>
+
+<li>http://blog.cloudera.com/blog/2015/03/how-to-tune-your-apache-spark-jobs-part-1/</li>
+
+<li>http://blog.cloudera.com/blog/2015/03/how-to-tune-your-apache-spark-jobs-part-2/</li>
 </ul>
