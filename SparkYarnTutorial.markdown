@@ -164,6 +164,11 @@ http://[IP]/logs/userlogs/application_1490663309971_0002/container_1490663309971
 
 ### Managing the CLUSTER
 
+If you have multiple machines, then it adds a lot of extra work and considerations for you in regards to managing the environment.  To ease that load
+I created
+
+
+* THIS REFERENCE GUIDE - helps to keep a summary of the most importand aspect in your project. 
 * SCRIPTS - To ease the management of services I wrote 3 scripts: startHadoop: Restarts the hadoop environment; shareSettings: shares hadoop settings across specified nodes;
 shareSpark: shares spark settings across the cluster.  
 * GITHUB - allows easily to get access to important settings to analize them. Can store the development history. Good intermediate between the cluster and other computers   
